@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assessoria Contábil Profissional</title>
+
+  <style>
+    :root{
+      --bg:#0b0a14;
+      --ink:#f7f5ff;
+      --muted:#c9c6da;
+      --line:rgba(255,255,255,.14);
+
+      --hot:#ff7a1a;
+      --vio:#a855f7;
+      --lime:#2ee59d;
+
+      --radius:22px;
+      --shadow: 0 22px 70px rgba(0,0,0,.55);
+
+      --max: 1140px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--font);
+      color:var(--ink);
+      background:
+        radial-gradient(900px 480px at 20% 10%, rgba(168,85,247,.30), transparent 60%),
+        radial-gradient(900px 480px at 80% 20%, rgba(255,122,26,.26), transparent 60%),
+        radial-gradient(900px 520px at 55% 95%, rgba(46,229,157,.14), transparent 60%),
+        linear-gradient(180deg, #070611, #100f1f 55%, #070611);
+      overflow-x:hidden;
+    }
+
+    .ribbon{
+      position:fixed;
+      inset:auto -20vw -30vh -20vw;
+      height:55vh;
+      transform: rotate(-10deg);
+      background: linear-gradient(90deg,
+        rgba(168,85,247,.22),
+        rgba(255,122,26,.18),
+        rgba(46,229,157,.14)
+      );
+      z-index:-2;
+      border-top:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:28px 16px 56px;
+    }
+
+    .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      padding:12px 0 22px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      user-select:none;
+      min-width: 260px;
+    }
+
+    /* LOGO */
+    .mark{
+      width:56px;
+      height:56px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.18);
+      background:#000;
+      box-shadow: 0 18px 40px rgba(0,0,0,.25);
+      overflow:hidden;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      padding:8px; /* respiro pra não cortar */
+      flex: 0 0 56px;
+    }
+
+    .mark img{
+      width:100%;
+      height:100%;
+      object-fit: contain; /* mostra inteira */
+      display:block;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:15px;
+      letter-spacing:.4px;
+      font-weight:900;
+      text-transform:uppercase;
+    }
+    .brand p{
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.25;
+      font-weight:600;
+    }
+
+    .contact-chip{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:8px;
+    }
+    .mini{
+      color:var(--muted);
+      font-size:12.5px;
+      font-weight:650;
+      line-height:1.2;
+      text-align:right;
+    }
+
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:18px;
+      text-decoration:none;
+      font-weight:900;
+      letter-spacing:.2px;
+      color:#08110a;
+      background: linear-gradient(135deg, var(--hot), var(--lime));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 18px 42px rgba(255,122,26,.14);
+      transition: transform .15s ease, filter .15s ease;
+      white-space:nowrap;
+    }
+    .cta:hover{ transform: translateY(-1px); filter:brightness(1.05); }
+    .cta svg{ width:18px; height:18px; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:16px;
+      align-items:stretch;
+    }
+
+    .panel{
+      border-radius: var(--radius);
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .panel::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 250px at 25% 0%, rgba(168,85,247,.30), transparent 60%),
+        radial-gradient(700px 250px at 85% 10%, rgba(255,122,26,.22), transparent 60%);
+      pointer-events:none;
+    }
+    .panel > *{ position:relative; }
+
+    .poster{
+      padding:26px 22px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .headline{
+      margin:0;
+      font-size: clamp(30px, 4.6vw, 54px);
+      line-height:1.02;
+      letter-spacing:-1px;
+      text-transform:uppercase;
+    }
+    .headline .glow{
+      background: linear-gradient(90deg, #fff, rgba(255,255,255,.65));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow: 0 18px 50px rgba(0,0,0,.35);
+    }
+
+    .lead{
+      margin:0;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:15.5px;
+      max-width:62ch;
+      font-weight:650;
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:4px;
+    }
+
+    .tile{
+      border-radius:20px;
+      border:1px solid var(--line);
+      background: rgba(10,10,18,.45);
+      padding:14px 14px;
+    }
+    .tile b{
+      display:block;
+      font-size:14px;
+      letter-spacing:.2px;
+      text-transform:uppercase;
+    }
+    .tile span{
+      display:block;
+      margin-top:8px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+      font-weight:650;
+    }
+
+    .bullets{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:10px;
+    }
+    .bullets li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:12px 12px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+    }
+    .dot{
+      width:22px; height:22px;
+      border-radius:999px;
+      background: rgba(46,229,157,.16);
+      border:1px solid rgba(46,229,157,.28);
+      display:grid; place-items:center;
+      flex:0 0 22px;
+      margin-top:1px;
+    }
+    .dot svg{ width:14px; height:14px; }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:6px;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:18px;
+      text-decoration:none;
+      font-weight:900;
+      letter-spacing:.2px;
+      border:1px solid var(--line);
+      transition: transform .15s ease, background .15s ease, filter .15s ease;
+      white-space:nowrap;
+    }
+    .btn.main{
+      color:#0b0a14;
+      background: linear-gradient(135deg, #fff, rgba(255,255,255,.72));
+      border-color: rgba(255,255,255,.18);
+      box-shadow: 0 20px 46px rgba(255,255,255,.10);
+    }
+    .btn.main:hover{ transform: translateY(-1px); filter:brightness(1.03); }
+
+    .meta{
+      margin-top:4px;
+      color:var(--muted);
+      font-size:12.5px;
+      font-weight:650;
+      border-left:3px solid rgba(255,122,26,.55);
+      padding:10px 12px;
+      border-radius:14px;
+      background: rgba(10,10,18,.35);
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    /* STORY */
+    .story{
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      height:100%;
+    }
+
+    .story-frame{
+      border-radius: 24px;
+      border:1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(520px 260px at 25% 0%, rgba(168,85,247,.30), transparent 60%),
+        radial-gradient(520px 260px at 85% 10%, rgba(255,122,26,.20), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      overflow:hidden;
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+      min-height: 560px;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .story-top{
+      padding:14px 14px 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: rgba(10,10,18,.25);
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:38px;
+      height:38px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+    }
+    .tag .spark{
+      width:12px; height:12px;
+      border-radius:4px;
+      background: linear-gradient(135deg, var(--vio), var(--hot));
+      box-shadow: 0 12px 24px rgba(168,85,247,.18);
+    }
+
+    .story-body{
+      padding:16px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      flex:1;
+    }
+
+    .big{
+      margin:0;
+      font-size:22px;
+      line-height:1.12;
+      letter-spacing:-.5px;
+      text-shadow: 0 16px 40px rgba(0,0,0,.35);
+    }
+    .big strong{ color:#fff; }
+
+    .story-card{
+      padding:14px;
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(10,10,18,.40);
+    }
+
+    .story-card h3{
+      margin:0 0 10px;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.5px;
+    }
+
+    .list{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:10px;
+    }
+    .list li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:10px 10px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+    }
+
+    .list .tick{
+      width:22px; height:22px;
+      border-radius:999px;
+      display:grid; place-items:center;
+      background: rgba(46,229,157,.14);
+      border:1px solid rgba(46,229,157,.28);
+      flex:0 0 22px;
+      margin-top:1px;
+    }
+
+    .slogan{
+      margin-top:10px;
+      padding:12px 14px;
+      border-radius:18px;
+      text-align:center;
+      font-weight:1000;
+      letter-spacing:-.3px;
+      border:1px dashed rgba(255,255,255,.22);
+      background: rgba(255,255,255,.06);
+    }
+
+    .story-foot{
+      padding:14px;
+      border-top:1px solid rgba(255,255,255,.10);
+      background: rgba(10,10,18,.25);
+      display:grid;
+      gap:10px;
+    }
+
+    .note{
+      color:var(--muted);
+      font-size:12.5px;
+      line-height:1.4;
+      font-weight:650;
+    }
+    code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size:12px;
+      color:#fff;
+      background: rgba(0,0,0,.25);
+      padding:2px 6px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    /* SECTION */
+    .section{
+      margin-top:18px;
+      border-radius: var(--radius);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding:18px;
+      box-shadow: 0 18px 55px rgba(0,0,0,.25);
+    }
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .section-head h2{
+      margin:0;
+      font-size:18px;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+    }
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      font-weight:650;
+      font-size:13px;
+      line-height:1.3;
+    }
+    .svc-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    .svc{
+      border-radius:20px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(10,10,18,.42);
+      padding:14px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .svc .icon{
+      width:36px; height:36px;
+      border-radius:14px;
+      background: linear-gradient(135deg, rgba(168,85,247,.22), rgba(255,122,26,.16));
+      border:1px solid rgba(255,255,255,.14);
+      display:grid; place-items:center;
+      flex:0 0 36px;
+    }
+    .svc b{ display:block; letter-spacing:-.2px; }
+    .svc span{
+      display:block;
+      margin-top:6px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+      font-weight:650;
+    }
+
+    /* IMPOSTO DE RENDA (NOVO) */
+    .ir-box{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap:16px;
+      align-items:center;
+    }
+    .ir-thumb{
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(10,10,18,.55);
+      overflow:hidden;
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+    }
+    .ir-thumb img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit: cover;
+    }
+    .ir-copy h3{
+      margin:0;
+      font-size:24px;
+      letter-spacing:-.4px;
+    }
+    .ir-copy p{
+      margin:10px 0 0;
+      color:var(--muted);
+      font-weight:700;
+      line-height:1.45;
+      font-size:14.5px;
+    }
+    .ir-list{
+      list-style:none;
+      padding:0;
+      margin:14px 0 0;
+      display:grid;
+      gap:10px;
+    }
+    .ir-list li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:10px 10px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+    }
+    .ir-list .tick{
+      width:22px; height:22px;
+      border-radius:999px;
+      display:grid; place-items:center;
+      background: rgba(46,229,157,.14);
+      border:1px solid rgba(46,229,157,.28);
+      flex:0 0 22px;
+      margin-top:1px;
+    }
+
+    footer{
+      margin-top:22px;
+      padding-top:16px;
+      border-top:1px solid rgba(255,255,255,.10);
+      color:var(--muted);
+      font-size:13px;
+      font-weight:650;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    footer a{ color:inherit; }
+
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+      .contact-chip{ align-items:flex-start; }
+      .mini{ text-align:left; }
+      .svc-grid{ grid-template-columns: 1fr; }
+      .ir-box{ grid-template-columns: 1fr; }
+      .ir-thumb{ max-width: 420px; }
+    }
+
+    @media (max-width: 520px){
+      .split{ grid-template-columns: 1fr; }
+      .headline{ letter-spacing:-.8px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ribbon" aria-hidden="true"></div>
+
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">
+          <img src="logomarca.png" alt="ERJ Contadores Associados">
+        </div>
+        <div>
+          <h1>Assessoria Contábil Profissional</h1>
+          <p>Organização • MEI • Regularização • Planejamento</p>
+        </div>
+      </div>
+
+      <div class="contact-chip">
+        <div class="mini">Atendimento direto<br><b>no WhatsApp</b></div>
+        <a class="cta" href="https://wa.me/5531991464601" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20 11.5A8.5 8.5 0 0 1 7.1 19l-3.1.8.9-3A8.5 8.5 0 1 1 20 11.5Z" stroke="rgba(0,0,0,.55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9.3 9.1c.2-.5.4-.5.6-.5h.5c.1 0 .3 0 .4.2.2.2.7 1 .8 1.2.1.3.1.5 0 .7l-.3.4c-.1.1-.2.3-.1.5.2.5.8 1.5 1.8 2.3.9.7 1.6 1 2.1 1.2.2.1.4 0 .5-.1l.6-.6c.2-.2.4-.2.6-.1l1.4.6c.2.1.3.3.3.5 0 .6-.3 1.2-.8 1.6-.6.5-1.3.6-2.1.4-1.5-.4-3.2-1.4-4.6-2.7-1.3-1.3-2.3-2.9-2.7-4.4-.2-.8-.1-1.5.4-2.1.3-.4.7-.7 1.2-.8Z" fill="rgba(0,0,0,.55)"/>
+          </svg>
+          Falar agora
+        </a>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="panel poster">
+        <h2 class="headline">
+          <span class="glow">Quer abrir<br> sua empresa?</span>
+        </h2>
+
+        <p class="lead">Ou organizar seu negócio?</p>
+
+        <div class="split">
+          <div class="tile">
+            <b>Assessoria</b>
+            <span>Assessoria Contábil Profissional</span>
+          </div>
+          <div class="tile">
+            <b>Modelo</b>
+            <span>Atendimento claro, com etapas e acompanhamento.</span>
+          </div>
+        </div>
+
+        <ul class="bullets" aria-label="Destaques do story (lado esquerdo)">
+          <li>
+            <span class="dot" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M20 6 9 17l-5-5" stroke="rgba(46,229,157,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <div><b>rápida</b></div>
+          </li>
+          <li>
+            <span class="dot" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M20 6 9 17l-5-5" stroke="rgba(46,229,157,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <div><b>segura</b></div>
+          </li>
+          <li>
+            <span class="dot" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M20 6 9 17l-5-5" stroke="rgba(46,229,157,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <div><b>sem burocracia</b></div>
+          </li>
+        </ul>
+
+        <div class="actions">
+          <a class="btn main" href="https://wa.me/5531991464601" target="_blank" rel="noopener">
+            Solicitar atendimento no WhatsApp
+          </a>
+        </div>
+
+        <div class="meta">
+          WhatsApp configurado: <b>+55 31 99146-4601</b> •
+          Link: <code>https://wa.me/5531991464601</code>
+        </div>
+      </section>
+
+      <aside class="panel story" id="servicos">
+        <div class="story-frame" aria-label="Card em formato story">
+          <div class="story-top">
+            <div class="tag" aria-label="Story / Serviços">
+              <span class="spark" aria-hidden="true"></span>
+            </div>
+            <div class="mini">Botão direto<br>WhatsApp</div>
+          </div>
+
+          <div class="story-body">
+            <p class="big">
+              <strong>Quer abrir sua empresa?</strong><br>
+              Ou organizar seu negócio?
+            </p>
+
+            <div class="story-card">
+              <h3>Serviços</h3>
+
+              <ul class="list" aria-label="Lista do story (lado direito)">
+                <li>
+                  <span class="tick" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
+                      <path d="M20 6 9 17l-5-5" stroke="rgba(46,229,157,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <div><b>Abertura e regularização de empresas</b></div>
+                </li>
+
+                <li>
+                  <span class="tick" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
+                      <path d="M20 6 9 17l-5-5" stroke="rgba(46,229,157,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <div><b>Suporte completo para MEI</b></div>
+                </li>
+
+                <li>
+                  <span class="tick" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
+                      <path d="M20 6 9 17l-5-5" stroke="rgba(46,229,157,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <div><b>Planejamento para pagar menos impostos</b></div>
+                </li>
+
+                <li>
+                  <span class="tick" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
+                      <path d="M20 6 9 17l-5-5" stroke="rgba(46,229,157,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <div><b>Assessoria trabalhista e contábil</b></div>
+                </li>
+              </ul>
+
+              <div class="slogan">Tudo para seu negócio crescer!</div>
+            </div>
+          </div>
+
+          <div class="story-foot">
+            <a class="cta" href="https://wa.me/5531991464601" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 11.5A8.5 8.5 0 0 1 7.1 19l-3.1.8.9-3A8.5 8.5 0 1 1 20 11.5Z" stroke="rgba(0,0,0,.55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.3 9.1c.2-.5.4-.5.6-.5h.5c.1 0 .3 0 .4.2.2.2.7 1 .8 1.2.1.3.1.5 0 .7l-.3.4c-.1.1-.2.3-.1.5.2.5.8 1.5 1.8 2.3.9.7 1.6 1 2.1 1.2.2.1.4 0 .5-.1l.6-.6c.2-.2.4-.2.6-.1l1.4.6c.2.1.3.3.3.5 0 .6-.3 1.2-.8 1.6-.6.5-1.3.6-2.1.4-1.5-.4-3.2-1.4-4.6-2.7-1.3-1.3-2.3-2.9-2.7-4.4-.2-.8-.1-1.5.4-2.1.3-.4.7-.7 1.2-.8Z" fill="rgba(0,0,0,.55)"/>
+              </svg>
+              Chamar no WhatsApp agora
+            </a>
+
+            <div class="note">
+              Se quiser trocar o número depois, altere somente:
+              <code>5531991464601</code>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- ✅ NOVA SEÇÃO: IMPOSTO DE RENDA PF -->
+    <section class="section" id="imposto-renda" aria-label="Imposto de Renda Pessoa Física">
+      <div class="section-head">
+        <h2>Imposto de Renda PF</h2>
+        <p>Atendimento para declaração com segurança.</p>
+      </div>
+
+      <div class="ir-box">
+        <div class="ir-thumb">
+          <img src="leonda.png" alt="Imposto de Renda Pessoa Física">
+        </div>
+
+        <div class="ir-copy">
+          <h3>Receba sua restituição</h3>
+          <p>Somos especialistas em declaração de imposto de renda</p>
+
+          <ul class="ir-list" aria-label="Benefícios do serviço de IR">
+            <li>
+              <span class="tick" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
+                  <path d="M20 6 9 17l-5-5" stroke="rgba(46,229,157,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div><b>Declaração completa e segura</b></div>
+            </li>
+            <li>
+              <span class="tick" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
+                  <path d="M20 6 9 17l-5-5" stroke="rgba(46,229,157,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div><b>Evite cair na malha fina</b></div>
+            </li>
+            <li>
+              <span class="tick" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
+                  <path d="M20 6 9 17l-5-5" stroke="rgba(46,229,157,.95)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <div><b>Atendimento rápido no WhatsApp</b></div>
+            </li>
+          </ul>
+
+          <div style="margin-top:14px;">
+            <a class="cta" href="https://wa.me/5531991464601" target="_blank" rel="noopener">
+              Fazer minha declaração
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVIÇOS (mantido) -->
+    <section class="section" id="servicos-site" aria-label="Serviços do site">
+      <div class="section-head">
+        <h2>Serviços</h2>
+        <p>Os principais serviços do seu story (agora também no site).</p>
+      </div>
+
+      <div class="svc-grid">
+        <div class="svc">
+          <div class="icon" aria-hidden="true">✅</div>
+          <div>
+            <b>Abertura e regularização de empresas</b>
+            <span>Do CNPJ à organização inicial, com orientação em cada etapa.</span>
+          </div>
+        </div>
+
+        <div class="svc">
+          <div class="icon" aria-hidden="true">✅</div>
+          <div>
+            <b>Suporte completo para MEI</b>
+            <span>Ajuda com rotina, ajustes, obrigações e dúvidas do dia a dia.</span>
+          </div>
+        </div>
+
+        <div class="svc">
+          <div class="icon" aria-hidden="true">✅</div>
+          <div>
+            <b>Planejamento para pagar menos impostos</b>
+            <span>Estratégias de enquadramento e organização para reduzir custos.</span>
+          </div>
+        </div>
+
+        <div class="svc">
+          <div class="icon" aria-hidden="true">✅</div>
+          <div>
+            <b>Assessoria trabalhista e contábil</b>
+            <span>Acompanhamento para decisões mais seguras e conformidade.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="y"></span> Assessoria Contábil Profissional</div>
+      <div>WhatsApp: <a href="https://wa.me/5531991464601" target="_blank" rel="noopener">+55 31 99146-4601</a></div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
